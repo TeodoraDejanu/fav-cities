@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation"; // Import useRouter
 
-const predefinedCities = ["Sibiu", "Bucuresti", "Brasov", "Timisoara", "Cluj"];
+const predefinedCities = ["sibiu", "bucuresti", "brasov", "timisoara", "cluj"];
 
-const CitySearch = () => {
+const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const router = useRouter(); // Initialize useRouter
 
   const handleSearch = (event) => {
     const value = event.target.value;
@@ -27,11 +30,13 @@ const CitySearch = () => {
       />
       <ul>
         {searchResults.map((city, index) => (
-          <li key={index}>{city}</li>
+          <li key={index}>
+            <Link href={{ pathname: "/city", query: { city } }}>{city}</Link>
+          </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default CitySearch;
+export default SearchBox;
