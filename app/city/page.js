@@ -1,19 +1,16 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import Nav from "../components/nav";
 
 const CityDetails = () => {
-  const router = useRouter();
-  //const { city } = useRouter() || { city: { text: "dubai" } };
-  //const { city } = useRouter().query;
-  const city = "dubai";
-  console.log("city", city);
+  const searchParams = useSearchParams();
+  const city = searchParams.get("city");
 
   const [cityDetails, setCityDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Function to fetch city details using cityname
     const fetchCityDetails = async () => {
       try {
         const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
@@ -35,8 +32,6 @@ const CityDetails = () => {
         setLoading(false);
       }
     };
-
-    // Fetch city details when the component mounts or when the 'city' query parameter changes
     if (city) {
       fetchCityDetails();
     } else {
@@ -54,11 +49,13 @@ const CityDetails = () => {
 
   return (
     <div>
-      <h1>City Details: {cityDetails.name}</h1>
-      <p>Country: {cityDetails.sys.country}</p>
-      <p>Temperature: {cityDetails.main.temp} °C</p>
-      <p>Weather: {cityDetails.weather[0].description}</p>
-      {/* Add more city details here */}
+      <Nav />
+      <div className="flex flex-col items-center justify-between p-24">
+        <h1>City Details: {cityDetails.name}</h1>
+        <p>Country: {cityDetails.sys.country}</p>
+        <p>Temperature: {cityDetails.main.temp} °F</p>
+        <p>Weather: {cityDetails.weather[0].description}</p>
+      </div>
     </div>
   );
 };

@@ -1,14 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Import useRouter
 
-const predefinedCities = ["sibiu", "bucuresti", "brasov", "timisoara", "cluj"];
+const predefinedCities = ["Sibiu", "București", "Brașov", "Timișoara", "Cluj"];
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const router = useRouter(); // Initialize useRouter
 
   const handleSearch = (event) => {
     const value = event.target.value;
