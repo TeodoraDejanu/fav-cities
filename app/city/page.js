@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import Nav from "../components/nav";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>;
 
 const CityDetails = () => {
   const searchParams = useSearchParams();
@@ -95,17 +100,44 @@ const CityDetails = () => {
     return <p>City not found or error fetching data.</p>;
   }
 
+  const shareUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityDetails.name}&appid=c51c844e38c20c82c5f106976976bdf4`;
+  const title = `Check out the weather details for ${cityDetails.name}`;
+
+  const handleWhatsappShare = () => {
+    const message = encodeURIComponent(`Check out this link: ${shareUrl}`);
+    window.open(`https://api.whatsapp.com/send?text=${message}`, "_blank");
+  };
+
   return (
     <div>
       <Nav />
       <div className="flex flex-col items-center justify-between p-24">
         <h1>City Details: {cityDetails.name}</h1>
         <p>Country: {cityDetails.sys.country}</p>
-        <p>Temperature: {cityDetails.main.temp} °F</p>
+        <p>Temperature: {cityDetails.main.temp}</p>
         <p>Weather: {cityDetails.weather[0].description}</p>
-        <button onClick={handleToggleFavorite}>
-          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-        </button>
+        <div className="mt-4">
+          <button
+            onClick={handleToggleFavorite}
+            className="px-3 py-1.5 rounded-md shadow-md font-semibold text-white text-sm bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+          </button>
+        </div>
+
+        <div className="mt-4 space-x-4">
+          <FacebookShareButton url={shareUrl} quote={title}>
+            <button className="px-4 py-2 rounded-md shadow-md font-semibold text-white bg-gradient-to-r from-pink-500 to-purple-500 hover:from-purple-500 hover:to-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-400 transform transition-transform hover:rotate-6 hover:scale-110">
+              <i className="fab fa-facebook mr-2"></i> Share on Facebook
+            </button>
+          </FacebookShareButton>
+          <button
+            onClick={handleWhatsappShare}
+            className="px-4 py-2 rounded-md shadow-md font-semibold text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 focus:outline-none focus:ring-2 focus:ring-green-300 transform transition-transform hover:rotate-6 hover:scale-110"
+          >
+            <i className="fab fa-whatsapp mr-2"></i> Share on WhatsApp
+          </button>
+        </div>
       </div>
     </div>
   );

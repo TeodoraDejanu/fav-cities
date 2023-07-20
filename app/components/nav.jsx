@@ -7,9 +7,6 @@ export default function Nav() {
       <Link href="/search" className="ml-2">
         Search
       </Link>
-      <Link href="/city" className="ml-2">
-        City page
-      </Link>
       <Link href="/favourites" className="ml-2">
         Favourites
       </Link>
